@@ -130,7 +130,6 @@ async function saveLead(data) {
     const leads = JSON.parse(localStorage.getItem('tiu_leads') || '[]');
     leads.push({
       ...data,
-      id: Date.now(),
       createdAt: new Date().toISOString()
     });
     localStorage.setItem('tiu_leads', JSON.stringify(leads));
@@ -140,12 +139,11 @@ async function saveLead(data) {
       method: 'POST',
       mode: 'no-cors',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'text/plain',
       },
       body: JSON.stringify({
-        id: Date.now(),
         fullName: data.fullName,
-        phone: data.phone,
+        phone: String(data.phone),
         telegram: data.telegram || ''
       })
     });

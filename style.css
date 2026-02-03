@@ -58,7 +58,7 @@ body {
   left: 0;
   right: 0;
   z-index: 1000;
-  padding: 0 100px;
+  padding: 0 120px;
   height: 110px;
   display: flex;
   align-items: center;
@@ -426,20 +426,21 @@ body {
 /* ========== WHY US ========== */
 .why-section {
   background: var(--off-white);
+  padding: 80px 60px;
 }
 
 .why-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
+  gap: 24px;
   max-width: 1300px;
-  margin: 64px auto 0;
+  margin: 48px auto 0;
 }
 
 .why-card {
   background: white;
   border-radius: var(--radius-lg);
-  padding: 40px 36px;
+  padding: 32px 28px;
   border: 1px solid var(--gray-100);
   transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   position: relative;
@@ -471,16 +472,18 @@ body {
 
 .why-number {
   display: block;
-  font-size: 48px;
+  font-size: 52px;
   font-weight: 800;
-  color: var(--gray-100);
+  color: var(--gray-200);
   line-height: 1;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   transition: color 0.3s;
+  -webkit-text-stroke: 1px var(--gray-300);
 }
 
 .why-card:hover .why-number {
-  color: var(--sky-pale);
+  color: var(--royal);
+  -webkit-text-stroke: 1px var(--royal);
 }
 
 .why-card h3 {
@@ -612,12 +615,27 @@ body {
 
 .faq-grid {
   max-width: 800px;
-  margin: 64px auto 0;
+  margin: 56px auto 0;
 }
 
 .faq-item {
-  border-bottom: 1px solid var(--gray-100);
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius-md);
+  margin-bottom: 12px;
   overflow: hidden;
+  background: var(--off-white);
+  transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+  border-color: var(--gray-200);
+  box-shadow: var(--shadow-sm);
+}
+
+.faq-item.active {
+  border-color: var(--royal);
+  background: white;
+  box-shadow: 0 4px 20px rgba(27,77,219,0.1);
 }
 
 .faq-question {
@@ -625,39 +643,51 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 26px 0;
+  padding: 22px 24px;
   background: none;
   border: none;
   cursor: pointer;
   font-family: inherit;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 600;
   color: var(--navy);
   text-align: left;
   transition: color 0.2s;
+  gap: 16px;
 }
 
 .faq-question:hover {
   color: var(--royal);
 }
 
+.faq-item.active .faq-question {
+  color: var(--royal);
+}
+
 .faq-icon {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background: var(--sky-pale);
+  background: white;
+  border: 2px solid var(--gray-200);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  font-size: 24px;
-  font-weight: 300;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--gray-500);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.faq-question:hover .faq-icon {
+  border-color: var(--royal);
   color: var(--royal);
-  transition: all 0.3s;
 }
 
 .faq-item.active .faq-icon {
   background: var(--royal);
+  border-color: var(--royal);
   color: white;
   transform: rotate(45deg);
 }
@@ -665,16 +695,16 @@ body {
 .faq-answer {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1), padding 0.3s ease;
 }
 
 .faq-item.active .faq-answer {
-  max-height: 200px;
+  max-height: 300px;
 }
 
 .faq-answer p {
-  padding: 0 0 26px;
-  font-size: 16px;
+  padding: 0 24px 22px;
+  font-size: 15px;
   color: var(--gray-500);
   line-height: 1.8;
 }
@@ -798,14 +828,22 @@ body {
 .footer-contact {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
 .footer-contact a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   color: rgba(255,255,255,0.6);
   text-decoration: none;
   font-size: 16px;
   transition: color 0.2s;
+}
+
+.footer-contact a svg {
+  flex-shrink: 0;
+  stroke: currentColor;
 }
 
 .footer-contact a:hover {
@@ -1076,13 +1114,24 @@ body {
     font-size: 20px;
   }
 
+  .faq-item {
+    margin-bottom: 10px;
+  }
+
   .faq-question {
-    font-size: 16px;
-    padding: 22px 0;
+    font-size: 15px;
+    padding: 18px 20px;
+  }
+
+  .faq-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
   }
 
   .faq-answer p {
-    font-size: 15px;
+    font-size: 14px;
+    padding: 0 20px 18px;
   }
 
   .footer {

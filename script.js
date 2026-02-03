@@ -120,45 +120,54 @@ function clearError(inputId, errorId) {
   }
 }
 
-// Google Sheets API endpoint
-const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwJJwtRH0wEHLJg9kVOdUsRPMJxypd45pil8RTeKehupyqMfGMzbtoe2CoX7M4FivKt/exec';
+const _e = ['aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J3Skp3dFJIMHdF', 'SExKZzlrVk9kVXNSUE1KeHlwZDQ1cGlsOFJUZUtlaHVweXFNZkdNemJ0b2UyQ29YN000Rml2S3QvZXhlYw=='];
+const _d = (s) => atob(s);
+const _getEndpoint = () => _d(_e[0]) + _d(_e[1]);
+const _k = 'tiu2026';
+const _encrypt = (text) => {
+  return btoa(encodeURIComponent(text).split('').map((c, i) =>
+    String.fromCharCode(c.charCodeAt(0) ^ _k.charCodeAt(i % _k.length))
+  ).join(''));
+};
+const _decrypt = (encoded) => {
+  try {
+    return decodeURIComponent(atob(encoded).split('').map((c, i) =>
+      String.fromCharCode(c.charCodeAt(0) ^ _k.charCodeAt(i % _k.length))
+    ).join(''));
+  } catch { return null; }
+};
 
-// Save lead to Google Sheets
+// Save lead to database
 async function saveLead(data) {
   try {
-    // Save to localStorage as backup
-    const leads = JSON.parse(localStorage.getItem('tiu_leads') || '[]');
+    // Save encrypted backup locally
+    const stored = localStorage.getItem('_tiu_d');
+    const leads = stored ? JSON.parse(_decrypt(stored) || '[]') : [];
     leads.push({
       ...data,
-      createdAt: new Date().toISOString()
+      t: new Date().toISOString()
     });
-    localStorage.setItem('tiu_leads', JSON.stringify(leads));
+    localStorage.setItem('_tiu_d', _encrypt(JSON.stringify(leads)));
 
-    // Send to Google Sheets
-    const response = await fetch(GOOGLE_SHEETS_URL, {
+    // Send to server
+    await fetch(_getEndpoint(), {
       method: 'POST',
       mode: 'no-cors',
-      headers: {
-        'Content-Type': 'text/plain',
-      },
+      headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify({
         fullName: data.fullName,
         phone: String(data.phone),
         telegram: data.telegram || ''
       })
     });
-
-    console.log('Lead saved to Google Sheets');
     return true;
-  } catch (error) {
-    console.error('Error saving to Google Sheets:', error);
+  } catch (e) {
     return false;
   }
 }
 
-// ========== SECURITY: Rate Limiting ==========
 let lastSubmitTime = 0;
-const SUBMIT_COOLDOWN = 30000; // 30 soniya kutish
+const SUBMIT_COOLDOWN = 30000;
 
 // Form submit handler with validation
 function handleFormSubmit(e) {
@@ -166,11 +175,10 @@ function handleFormSubmit(e) {
 
   const form = e.target;
 
-  // Security: Honeypot tekshiruvi (botlarni aniqlash)
+  // Security: Honeypot check
   const honeypot = form.querySelector('#website');
   if (honeypot && honeypot.value !== '') {
-    console.log('Bot detected via honeypot');
-    return; // Botni jimgina rad etamiz
+    return;
   }
 
   // Security: Rate limiting (tez-tez yuborishni oldini olish)
@@ -301,39 +309,3 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-// ========== ADMIN: View all leads (for testing) ==========
-// Open browser console and type: viewLeads() to see all saved leads
-window.viewLeads = function() {
-  const leads = JSON.parse(localStorage.getItem('tiu_leads') || '[]');
-  console.table(leads);
-  return leads;
-};
-
-// Export leads as CSV
-window.exportLeadsCSV = function() {
-  const leads = JSON.parse(localStorage.getItem('tiu_leads') || '[]');
-  if (leads.length === 0) {
-    console.log('No leads to export');
-    return;
-  }
-
-  const headers = ['ID', 'Ism', 'Telefon', 'Telegram', 'Sana'];
-  const csv = [
-    headers.join(','),
-    ...leads.map(lead => [
-      lead.id,
-      `"${lead.fullName}"`,
-      `"${lead.phone}"`,
-      `"${lead.telegram}"`,
-      `"${lead.createdAt}"`
-    ].join(','))
-  ].join('\n');
-
-  const blob = new Blob([csv], { type: 'text/csv' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'tiu_leads.csv';
-  a.click();
-  console.log('CSV exported!');
-};

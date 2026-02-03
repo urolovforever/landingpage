@@ -120,47 +120,51 @@ function clearError(inputId, errorId) {
   }
 }
 
-// Google Sheets API endpoint
-const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwJJwtRH0wEHLJg9kVOdUsRPMJxypd45pil8RTeKehupyqMfGMzbtoe2CoX7M4FivKt/exec';
+const _e = ['aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J3Skp3dFJIMHdF', 'SExKZzlrVk9kVXNSUE1KeHlwZDQ1cGlsOFJUZUtlaHVweXFNZkdNemJ0b2UyQ29YN000Rml2S3QvZXhlYw=='];
+const _d = (s) => atob(s);
+const _g = () => _d(_e[0]) + _d(_e[1]);
 
-// Save lead to Google Sheets
 async function saveLead(data) {
   try {
-    // Save to localStorage as backup
-    const leads = JSON.parse(localStorage.getItem('tiu_leads') || '[]');
-    leads.push({
-      ...data,
-      createdAt: new Date().toISOString()
-    });
-    localStorage.setItem('tiu_leads', JSON.stringify(leads));
-
-    // Send to Google Sheets
-    const response = await fetch(GOOGLE_SHEETS_URL, {
+    await fetch(_g(), {
       method: 'POST',
       mode: 'no-cors',
-      headers: {
-        'Content-Type': 'text/plain',
-      },
+      headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify({
         fullName: data.fullName,
         phone: String(data.phone),
         telegram: data.telegram || ''
       })
     });
-
-    console.log('Lead saved to Google Sheets');
     return true;
-  } catch (error) {
-    console.error('Error saving to Google Sheets:', error);
+  } catch (e) {
     return false;
   }
 }
+
+let lastSubmitTime = 0;
+const SUBMIT_COOLDOWN = 30000;
 
 // Form submit handler with validation
 function handleFormSubmit(e) {
   e.preventDefault();
 
   const form = e.target;
+
+  // Security: Honeypot check
+  const honeypot = form.querySelector('#website');
+  if (honeypot && honeypot.value !== '') {
+    return;
+  }
+
+  // Security: Rate limiting (tez-tez yuborishni oldini olish)
+  const now = Date.now();
+  if (now - lastSubmitTime < SUBMIT_COOLDOWN) {
+    const remainingTime = Math.ceil((SUBMIT_COOLDOWN - (now - lastSubmitTime)) / 1000);
+    alert(`Iltimos, ${remainingTime} soniya kuting va qayta urinib ko'ring.`);
+    return;
+  }
+
   const fullName = form.querySelector('#fullName');
   const phone = form.querySelector('#phone');
   const telegram = form.querySelector('#telegram');
@@ -193,6 +197,13 @@ function handleFormSubmit(e) {
     phone: phone.value.trim(),
     telegram: telegram ? telegram.value.trim() : ''
   };
+
+  // Security: Input sanitization (maxsus belgilarni tozalash)
+  formData.fullName = formData.fullName.replace(/[<>\"'&]/g, '');
+  formData.telegram = formData.telegram.replace(/[<>\"'&]/g, '');
+
+  // Rate limiting uchun vaqtni saqlash
+  lastSubmitTime = Date.now();
 
   // Save to localStorage
   saveLead(formData);
@@ -274,39 +285,3 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-// ========== ADMIN: View all leads (for testing) ==========
-// Open browser console and type: viewLeads() to see all saved leads
-window.viewLeads = function() {
-  const leads = JSON.parse(localStorage.getItem('tiu_leads') || '[]');
-  console.table(leads);
-  return leads;
-};
-
-// Export leads as CSV
-window.exportLeadsCSV = function() {
-  const leads = JSON.parse(localStorage.getItem('tiu_leads') || '[]');
-  if (leads.length === 0) {
-    console.log('No leads to export');
-    return;
-  }
-
-  const headers = ['ID', 'Ism', 'Telefon', 'Telegram', 'Sana'];
-  const csv = [
-    headers.join(','),
-    ...leads.map(lead => [
-      lead.id,
-      `"${lead.fullName}"`,
-      `"${lead.phone}"`,
-      `"${lead.telegram}"`,
-      `"${lead.createdAt}"`
-    ].join(','))
-  ].join('\n');
-
-  const blob = new Blob([csv], { type: 'text/csv' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'tiu_leads.csv';
-  a.click();
-  console.log('CSV exported!');
-};

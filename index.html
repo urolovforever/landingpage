@@ -68,19 +68,21 @@
         <h3>Bepul konsultatsiya oling</h3>
         <p>Mutaxassis siz bilan 24 soat ichida bog'lanadi</p>
       </div>
-      <form id="leadForm">
+      <form id="leadForm" novalidate>
         <div class="form-group">
-          <label>Ism-familiyangiz</label>
-          <input type="text" placeholder="Masalan: Alisher Karimov" required>
+          <label>Ism-familiyangiz <span class="required">*</span></label>
+          <input type="text" id="fullName" name="fullName" placeholder="Masalan: Alisher Karimov" required minlength="3">
+          <span class="error-message" id="nameError"></span>
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label>Telefon raqam</label>
-            <input type="tel" placeholder="+998 90 123 45 67" required>
+            <label>Telefon raqam <span class="required">*</span></label>
+            <input type="tel" id="phone" name="phone" placeholder="+998 90 123 45 67" required>
+            <span class="error-message" id="phoneError"></span>
           </div>
           <div class="form-group">
             <label>Telegram (ixtiyoriy)</label>
-            <input type="text" placeholder="@username">
+            <input type="text" id="telegram" name="telegram" placeholder="@username">
           </div>
         </div>
         <button type="submit" class="form-submit">Mutaxassis bilan gaplashish</button>

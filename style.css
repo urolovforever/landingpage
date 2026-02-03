@@ -980,25 +980,42 @@ body {
   }
 
   .hero {
+    height: auto;
+    min-height: auto;
     padding-top: 90px;
+    padding-bottom: 60px;
   }
 
   .hero-content {
     grid-template-columns: 1fr;
     padding: 48px 32px;
-    gap: 48px;
+    gap: 40px;
   }
 
   .hero-title {
-    font-size: 44px;
+    font-size: 40px;
   }
 
   .hero-subtitle {
-    font-size: 18px;
+    font-size: 17px;
+    margin-bottom: 28px;
   }
 
   .hero-form-card {
-    max-width: 520px;
+    max-width: 100%;
+    padding: 32px 28px;
+  }
+
+  .form-header {
+    margin-bottom: 24px;
+  }
+
+  .form-group input {
+    padding: 14px 16px;
+  }
+
+  .form-submit {
+    padding: 16px;
   }
 
   .section {

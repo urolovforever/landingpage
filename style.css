@@ -388,6 +388,26 @@ body {
   margin-top: 16px;
 }
 
+.required {
+  color: #ff6b6b;
+}
+
+.error-message {
+  display: none;
+  color: #ff6b6b;
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+.input-error {
+  border-color: #ff6b6b !important;
+  background: rgba(255,107,107,0.1) !important;
+}
+
+.input-error:focus {
+  box-shadow: 0 0 0 3px rgba(255,107,107,0.2) !important;
+}
+
 /* ========== SECTION COMMON ========== */
 .section {
   padding: 120px 60px;

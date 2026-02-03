@@ -966,11 +966,13 @@ body {
     padding: 20px 32px 40px;
     gap: 0;
     overflow-y: auto;
-    z-index: 999;
+    z-index: 1001;
   }
 
   .nav-links.active {
     display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 
   .nav-links li {
@@ -1178,6 +1180,13 @@ body {
   .nav-links {
     top: 80px;
     padding: 16px 20px 40px;
+    z-index: 1001;
+  }
+
+  .nav-links.active {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 
   .nav-links a {

@@ -121,7 +121,7 @@ function clearError(inputId, errorId) {
 }
 
 // Google Sheets API endpoint
-const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwTMcmEMuaiWXiavpdyzTkS3puddakpIxjTY5YMXWabkj6WYE3A4nKuCaUmzcKegYBj/exec';
+const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwBeMx4n2uXBitHEOrj-HW96AJckJbtxzcarAFhNWnJVJMVz52lU9LymgzlOG_CSca5/exec';
 
 // Save lead to Google Sheets
 async function saveLead(data) {

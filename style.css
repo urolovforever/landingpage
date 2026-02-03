@@ -935,13 +935,14 @@ body {
     bottom: 0;
     flex-direction: column;
     background: var(--navy);
-    padding: 40px 32px;
+    padding: 32px;
     gap: 0;
     overflow-y: auto;
+    z-index: 999;
   }
 
   .nav-links.active {
-    display: flex;
+    display: flex !important;
   }
 
   .nav-links li {
@@ -1089,11 +1090,45 @@ body {
   }
 
   .hero {
+    height: auto;
+    min-height: auto;
     padding-top: 80px;
+    padding-bottom: 40px;
   }
 
   .hero-content {
-    padding: 36px 20px;
+    padding: 30px 20px;
+    gap: 32px;
+  }
+
+  .hero-form-card {
+    padding: 24px 20px;
+  }
+
+  .form-header {
+    margin-bottom: 20px;
+  }
+
+  .form-header p {
+    font-size: 14px;
+  }
+
+  .form-group {
+    margin-bottom: 12px;
+  }
+
+  .form-group input {
+    padding: 14px 16px;
+  }
+
+  .form-submit {
+    padding: 16px;
+    font-size: 16px;
+  }
+
+  .form-note {
+    margin-top: 12px;
+    font-size: 13px;
   }
 
   .hero-badge {

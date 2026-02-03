@@ -59,7 +59,7 @@ body {
   right: 0;
   z-index: 1000;
   padding: 0 120px;
-  height: 110px;
+  height: 130px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -144,11 +144,12 @@ body {
 /* ========== HERO ========== */
 .hero {
   position: relative;
+  height: 100vh;
   min-height: 100vh;
   display: flex;
   align-items: center;
   overflow: hidden;
-  padding-top: 110px;
+  padding-top: 130px;
 }
 
 .hero-bg {
@@ -688,9 +689,16 @@ body {
   background: white;
 }
 
+.faq-section .section-title,
+.faq-section .section-tag,
+.faq-section .section-subtitle {
+  text-align: center;
+}
+
 .faq-grid {
-  max-width: 680px;
+  max-width: 900px;
   margin: 56px auto 0;
+  text-align: left;
 }
 
 .faq-item {
@@ -742,6 +750,7 @@ body {
   font-size: 16px;
   color: var(--gray-500);
   line-height: 1.8;
+  text-align: left;
 }
 
 /* ========== SUCCESS MODAL ========== */

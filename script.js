@@ -120,17 +120,42 @@ function clearError(inputId, errorId) {
   }
 }
 
-// Save lead to localStorage (temporary storage)
-function saveLead(data) {
-  const leads = JSON.parse(localStorage.getItem('tiu_leads') || '[]');
-  leads.push({
-    ...data,
-    id: Date.now(),
-    createdAt: new Date().toISOString()
-  });
-  localStorage.setItem('tiu_leads', JSON.stringify(leads));
-  console.log('Lead saved:', data);
-  console.log('All leads:', leads);
+// Google Sheets API endpoint
+const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwTMcmEMuaiWXiavpdyzTkS3puddakpIxjTY5YMXWabkj6WYE3A4nKuCaUmzcKegYBj/exec';
+
+// Save lead to Google Sheets
+async function saveLead(data) {
+  try {
+    // Save to localStorage as backup
+    const leads = JSON.parse(localStorage.getItem('tiu_leads') || '[]');
+    leads.push({
+      ...data,
+      id: Date.now(),
+      createdAt: new Date().toISOString()
+    });
+    localStorage.setItem('tiu_leads', JSON.stringify(leads));
+
+    // Send to Google Sheets
+    const response = await fetch(GOOGLE_SHEETS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: Date.now(),
+        fullName: data.fullName,
+        phone: data.phone,
+        telegram: data.telegram || ''
+      })
+    });
+
+    console.log('Lead saved to Google Sheets');
+    return true;
+  } catch (error) {
+    console.error('Error saving to Google Sheets:', error);
+    return false;
+  }
 }
 
 // Form submit handler with validation

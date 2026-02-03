@@ -503,7 +503,7 @@ body {
 /* ========== 3D TOUR ========== */
 .tour-section {
   display: grid;
-  grid-template-columns: 1.1fr 1fr;
+  grid-template-columns: 1.4fr 1fr;
   min-height: 600px;
   background: var(--navy);
 }

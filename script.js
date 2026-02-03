@@ -121,7 +121,7 @@ function clearError(inputId, errorId) {
 }
 
 // Google Sheets API endpoint
-const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwBeMx4n2uXBitHEOrj-HW96AJckJbtxzcarAFhNWnJVJMVz52lU9LymgzlOG_CSca5/exec';
+const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwJJwtRH0wEHLJg9kVOdUsRPMJxypd45pil8RTeKehupyqMfGMzbtoe2CoX7M4FivKt/exec';
 
 // Save lead to Google Sheets
 async function saveLead(data) {
@@ -130,7 +130,6 @@ async function saveLead(data) {
     const leads = JSON.parse(localStorage.getItem('tiu_leads') || '[]');
     leads.push({
       ...data,
-      id: Date.now(),
       createdAt: new Date().toISOString()
     });
     localStorage.setItem('tiu_leads', JSON.stringify(leads));
@@ -140,12 +139,11 @@ async function saveLead(data) {
       method: 'POST',
       mode: 'no-cors',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'text/plain',
       },
       body: JSON.stringify({
-        id: Date.now(),
         fullName: data.fullName,
-        phone: data.phone,
+        phone: String(data.phone),
         telegram: data.telegram || ''
       })
     });

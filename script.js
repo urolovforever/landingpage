@@ -156,11 +156,31 @@ async function saveLead(data) {
   }
 }
 
+// ========== SECURITY: Rate Limiting ==========
+let lastSubmitTime = 0;
+const SUBMIT_COOLDOWN = 30000; // 30 soniya kutish
+
 // Form submit handler with validation
 function handleFormSubmit(e) {
   e.preventDefault();
 
   const form = e.target;
+
+  // Security: Honeypot tekshiruvi (botlarni aniqlash)
+  const honeypot = form.querySelector('#website');
+  if (honeypot && honeypot.value !== '') {
+    console.log('Bot detected via honeypot');
+    return; // Botni jimgina rad etamiz
+  }
+
+  // Security: Rate limiting (tez-tez yuborishni oldini olish)
+  const now = Date.now();
+  if (now - lastSubmitTime < SUBMIT_COOLDOWN) {
+    const remainingTime = Math.ceil((SUBMIT_COOLDOWN - (now - lastSubmitTime)) / 1000);
+    alert(`Iltimos, ${remainingTime} soniya kuting va qayta urinib ko'ring.`);
+    return;
+  }
+
   const fullName = form.querySelector('#fullName');
   const phone = form.querySelector('#phone');
   const telegram = form.querySelector('#telegram');
@@ -193,6 +213,13 @@ function handleFormSubmit(e) {
     phone: phone.value.trim(),
     telegram: telegram ? telegram.value.trim() : ''
   };
+
+  // Security: Input sanitization (maxsus belgilarni tozalash)
+  formData.fullName = formData.fullName.replace(/[<>\"'&]/g, '');
+  formData.telegram = formData.telegram.replace(/[<>\"'&]/g, '');
+
+  // Rate limiting uchun vaqtni saqlash
+  lastSubmitTime = Date.now();
 
   // Save to localStorage
   saveLead(formData);

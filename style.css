@@ -940,8 +940,10 @@ body {
     right: 0;
     bottom: 0;
     flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
     background: var(--navy);
-    padding: 32px;
+    padding: 20px 32px 40px;
     gap: 0;
     overflow-y: auto;
     z-index: 999;
@@ -953,20 +955,22 @@ body {
 
   .nav-links li {
     width: 100%;
+    flex-shrink: 0;
   }
 
   .nav-links a {
     display: block;
-    padding: 20px 0;
-    font-size: 20px;
+    padding: 18px 0;
+    font-size: 18px;
     border-bottom: 1px solid rgba(255,255,255,0.08);
   }
 
   .nav-cta {
-    margin-top: 20px;
+    margin-top: 24px;
     text-align: center;
     display: block !important;
-    padding: 18px 32px !important;
+    padding: 16px 28px !important;
+    width: 100%;
   }
 
   .hamburger {
@@ -1153,6 +1157,18 @@ body {
 
   .nav-links {
     top: 80px;
+    padding: 16px 20px 40px;
+  }
+
+  .nav-links a {
+    padding: 16px 0;
+    font-size: 17px;
+  }
+
+  .nav-cta {
+    margin-top: 20px;
+    padding: 14px 24px !important;
+    font-size: 16px !important;
   }
 
   .hero {

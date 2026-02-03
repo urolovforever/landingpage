@@ -122,35 +122,11 @@ function clearError(inputId, errorId) {
 
 const _e = ['aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J3Skp3dFJIMHdF', 'SExKZzlrVk9kVXNSUE1KeHlwZDQ1cGlsOFJUZUtlaHVweXFNZkdNemJ0b2UyQ29YN000Rml2S3QvZXhlYw=='];
 const _d = (s) => atob(s);
-const _getEndpoint = () => _d(_e[0]) + _d(_e[1]);
-const _k = 'tiu2026';
-const _encrypt = (text) => {
-  return btoa(encodeURIComponent(text).split('').map((c, i) =>
-    String.fromCharCode(c.charCodeAt(0) ^ _k.charCodeAt(i % _k.length))
-  ).join(''));
-};
-const _decrypt = (encoded) => {
-  try {
-    return decodeURIComponent(atob(encoded).split('').map((c, i) =>
-      String.fromCharCode(c.charCodeAt(0) ^ _k.charCodeAt(i % _k.length))
-    ).join(''));
-  } catch { return null; }
-};
+const _g = () => _d(_e[0]) + _d(_e[1]);
 
-// Save lead to database
 async function saveLead(data) {
   try {
-    // Save encrypted backup locally
-    const stored = localStorage.getItem('_tiu_d');
-    const leads = stored ? JSON.parse(_decrypt(stored) || '[]') : [];
-    leads.push({
-      ...data,
-      t: new Date().toISOString()
-    });
-    localStorage.setItem('_tiu_d', _encrypt(JSON.stringify(leads)));
-
-    // Send to server
-    await fetch(_getEndpoint(), {
+    await fetch(_g(), {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain' },

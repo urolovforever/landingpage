@@ -285,3 +285,10 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
+// ========== PROGRAM CARDS TOGGLE ==========
+document.querySelectorAll('.program-header').forEach(header => {
+  header.addEventListener('click', () => {
+    const card = header.closest('.program-card');
+    card.classList.toggle('expanded');
+  });
+});

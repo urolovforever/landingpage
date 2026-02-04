@@ -464,14 +464,17 @@ body {
 }
 
 .why-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 24px;
   max-width: 1300px;
   margin: 48px auto 0;
 }
 
 .why-card {
+  flex: 0 1 calc(33.333% - 16px);
+  max-width: 400px;
   background: white;
   border-radius: var(--radius-lg);
   padding: 32px 28px;
@@ -642,14 +645,18 @@ body {
 }
 
 .programs-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 28px;
-  max-width: 1300px;
+  max-width: 1400px;
   margin: 56px auto 0;
 }
 
 .program-card {
+  flex: 0 1 calc(20% - 23px);
+  min-width: 240px;
+  max-width: 280px;
   background: white;
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -1122,8 +1129,22 @@ body {
   }
 
   .why-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
+    gap: 20px;
+  }
+
+  .why-card {
+    flex: 0 1 calc(50% - 10px);
+    max-width: none;
+  }
+
+  .programs-grid {
+    gap: 20px;
+  }
+
+  .program-card {
+    flex: 0 1 calc(33.333% - 14px);
+    min-width: 200px;
+    max-width: none;
   }
 
   .tour-section {
@@ -1315,24 +1336,19 @@ body {
     font-size: 16px;
   }
 
-  .why-grid {
-    grid-template-columns: 1fr;
-  }
-
   .why-card {
+    flex: 0 1 100%;
     padding: 32px 28px;
-  }
-
-  .why-number {
-    font-size: 40px;
   }
 
   .why-card h3 {
     font-size: 20px;
   }
 
-  .programs-grid {
-    grid-template-columns: 1fr;
+  .program-card {
+    flex: 0 1 100%;
+    min-width: auto;
+    max-width: none;
   }
 
   .programs-grid {

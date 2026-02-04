@@ -133,7 +133,7 @@ async function saveLead(data) {
       body: JSON.stringify({
         fullName: data.fullName,
         phone: String(data.phone),
-        telegram: data.telegram || ''
+        school: data.school || ''
       })
     });
     return true;
@@ -167,7 +167,7 @@ function handleFormSubmit(e) {
 
   const fullName = form.querySelector('#fullName');
   const phone = form.querySelector('#phone');
-  const telegram = form.querySelector('#telegram');
+  const school = form.querySelector('#school');
 
   let isValid = true;
 
@@ -195,12 +195,12 @@ function handleFormSubmit(e) {
   const formData = {
     fullName: fullName.value.trim(),
     phone: phone.value.trim(),
-    telegram: telegram ? telegram.value.trim() : ''
+    school: school ? school.value.trim() : ''
   };
 
   // Security: Input sanitization (maxsus belgilarni tozalash)
   formData.fullName = formData.fullName.replace(/[<>\"'&]/g, '');
-  formData.telegram = formData.telegram.replace(/[<>\"'&]/g, '');
+  formData.school = formData.school.replace(/[<>\"'&]/g, '');
 
   // Rate limiting uchun vaqtni saqlash
   lastSubmitTime = Date.now();

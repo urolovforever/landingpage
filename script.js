@@ -120,7 +120,7 @@ function clearError(inputId, errorId) {
   }
 }
 
-const _e = ['aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J3Skp3dFJIMHdF', 'SExKZzlrVk9kVXNSUE1KeHlwZDQ1cGlsOFJUZUtlaHVweXFNZkdNemJ0b2UyQ29YN000Rml2S3QvZXhlYw=='];
+const _e = ['aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J4ZmU4N3ZpZFpHdUpMVUZUWUdLajFwek1VeHhuYQ==', 'X2VXYXliVG5pTFB4am95UEJDZHJFYlhRQWhPcVpvTmo0ek1UUC9leGVj'];
 const _d = (s) => atob(s);
 const _g = () => _d(_e[0]) + _d(_e[1]);
 
@@ -133,7 +133,7 @@ async function saveLead(data) {
       body: JSON.stringify({
         fullName: data.fullName,
         phone: String(data.phone),
-        telegram: data.telegram || ''
+        school: data.school || ''
       })
     });
     return true;
@@ -167,7 +167,7 @@ function handleFormSubmit(e) {
 
   const fullName = form.querySelector('#fullName');
   const phone = form.querySelector('#phone');
-  const telegram = form.querySelector('#telegram');
+  const school = form.querySelector('#school');
 
   let isValid = true;
 
@@ -195,12 +195,12 @@ function handleFormSubmit(e) {
   const formData = {
     fullName: fullName.value.trim(),
     phone: phone.value.trim(),
-    telegram: telegram ? telegram.value.trim() : ''
+    school: school ? school.value.trim() : ''
   };
 
   // Security: Input sanitization (maxsus belgilarni tozalash)
   formData.fullName = formData.fullName.replace(/[<>\"'&]/g, '');
-  formData.telegram = formData.telegram.replace(/[<>\"'&]/g, '');
+  formData.school = formData.school.replace(/[<>\"'&]/g, '');
 
   // Rate limiting uchun vaqtni saqlash
   lastSubmitTime = Date.now();
